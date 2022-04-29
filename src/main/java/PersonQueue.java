@@ -4,7 +4,7 @@ int totalTime =0;
 int delayTotal;
 
 PersonQueue [] array;
-//PersonQueue [] temp;
+PersonQueue [] temp;
 int setQueue;
 
 //the sum of all processing times in this queue

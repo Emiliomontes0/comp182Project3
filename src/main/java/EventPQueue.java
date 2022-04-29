@@ -1,4 +1,4 @@
-
+import java.util.*;
 public class EventPQueue {
     //because this is a priority queue, you will need enqueue(), dequeue(), isEmpty()
     public EventPQueue()
@@ -114,4 +114,29 @@ public class EventPQueue {
         return true;
     }*/
     
+    
+    class Node{
+        private char letter;
+        private Node next, prev;
+        public Node(char c){
+        letter = c;
+        next = prev = null;
+        }
+        public char getLetter(){
+        return letter;
+        }
+        public Node getNext(){
+        return next;
+        }
+        public void setNext(Node n){
+        next = n;
+        }
+        public Node getPrev(){
+        return prev;
+        }
+        public void setPrev(Node p){
+        prev = p;
+        }
+        
+    }
 }
