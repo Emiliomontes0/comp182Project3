@@ -8,7 +8,6 @@ public class Driver {
        int temp4;
        int temp5;
        int temp6;
-       PersonQueue [] temp;
        
        Scanner output = new Scanner (System.in);
        System.out.println("Welcome to Job Simulator");
@@ -24,16 +23,16 @@ public class Driver {
        temp5 = output.nextInt();
        System.out.println("What is the maximum processing time for a job?");
        temp6 = output.nextInt();
-      // System.out.println("*");
+
        Store store = new Store (temp1, temp2, temp3, temp4, temp5, temp6);
-       //System.out.println(store.getArray());
        
-       
+       System.out.println("Time\t\t\tActivity");
        
        PersonQueue pq = new PersonQueue();
        pq.setQueue(store.getQueue());
        pq.setArray(store.getArray());
        
-       System.out.println();
+       EventPQueue eventpqueue = new EventPQueue(pq);
+       
    }
 }

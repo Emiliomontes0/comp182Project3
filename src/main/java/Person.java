@@ -6,7 +6,7 @@ public class Person extends PersonQueue{
    public Person(int arrivalTime, int departureTime, int processingTime)
    {
        this.arrivalTime = arrivalTime;
-       this.departureTime = departureTime;
+       this.departureTime = processingTime;
        this.processingTime = processingTime;
    }
    public int getArrival()
@@ -20,6 +20,18 @@ public class Person extends PersonQueue{
    public int getProcess()
    {
        return processingTime;
+   }
+   public void setDeparture(int departureTime)
+   {
+       this.departureTime = departureTime;
+   }
+   public void setProcess(int processingTime)
+   {
+       this.processingTime = processingTime;
+   }
+   public void setArrival(int arrivalTime)
+   {
+       this.arrivalTime = arrivalTime;
    }
    
 }

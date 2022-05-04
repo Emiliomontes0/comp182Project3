@@ -7,19 +7,33 @@ public class Event {
     String type = ""; 
     int time; 
     int numQueue;
+    int process;
     
-    public Event(int time,String type,int numQueue)
+    public Event(int time,String type,int numQueue,int process)
     {
+        this.process=process;
         this.type=type;
         this.numQueue= numQueue;
+        this.time=time;
+        numQueue = numQueue+1;
+        
         if (type.equals("arrival"))
         {
-            System.out.println("Customer Arrives (Processing time is -" +time + ") -Cusomer Joins Queue " + numQueue);
+                   /*System.out.println();
+                   System.out.println();
+                   System.out.println();*/
+            System.out.println(time + "\t\t\tCustomer Arrives (Processing time is " +process + ") -Cusomer Joins Queue " + numQueue);
         }
-     
-        else if (type.equals("departure"))
+    }
+    public Event(int time, String type, int numQueue)
+    {
+        this.time=time;
+        this.type = type;
+        this.numQueue=numQueue;
+        numQueue = numQueue+1;
+        if(type.equals("departure"))
         {
-            System.out.println("Customer Departs Queue " + numQueue);
+            System.out.println(time+ "\t\t\tCustomer Departs Queue " + numQueue);
         }
     }
     

@@ -21,11 +21,11 @@ int maxProcess;
         this.maxProcess = maxProcess;
         
         mypq = new PersonQueue [customer];
-        
-        for(int i =0; i<customer; i++)
+        Person p = new Person(0,0, Random(minProcess, maxProcess));
+        mypq[0] = (PersonQueue) p;
+        for(int i =1; i<customer; i++)
         {
-          Person p = new Person(Random(minJob, maxJob),0, Random(minProcess, maxProcess));
-          mypq[i] = (PersonQueue) p;
+          addPerson(i);
         }
         
     }

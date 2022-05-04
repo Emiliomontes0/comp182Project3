@@ -1,142 +1,143 @@
 import java.util.*;
 public class EventPQueue {
+    int arrivalTime=0;
+    int delay=0;
+    int departure;
+    int totalTime=0;
+    int numQueues;
+    int counter=0;
+    int [] currQueued;
+    int [] departureTime;
+    
+    Event event;
+    DoublyLinkList [] prioQ; 
+    PersonQueue [] pq;
+    
     //because this is a priority queue, you will need enqueue(), dequeue(), isEmpty()
-    public EventPQueue()
+    public EventPQueue(PersonQueue queue)
     {
-        int numQueues;
-        PersonQueue [] pq;
-        PersonQueue queue = new PersonQueue();
+        DoublyLinkList d = new DoublyLinkList();
         pq =queue.getQueue();
         numQueues = queue.getNumQueue();
-        
-        
-        
-        
-        
-        
-        
-        //storage[0] = new IntNode(head_data, head_ptr);
-        //syntax to create linklist in object array
-        
-        /*
-         for(int i = 0;i<peopleQueued.length;i++)
+        currQueued = new int [numQueues];
+        departureTime = new int [numQueues];
+        prioQ = new DoublyLinkList[numQueues];
+        counter = 0;
+        for(int i = 0;i<currQueued.length;i++)
         {
-            peopleQueued[i][0]=0;
-        }
-        for(int i=0;i<departArray.length;i++)
-        {
-            for(int j =0; j<departArray[i].length;i++)
-            {
-                departArray[i][j]=0;
-            }
+            currQueued[i]=0;
+            departureTime[i]=0;
+            prioQ[i]=d;
         }
         
+        
+        
+        enqueue();
         //simulation processes
-        while(numPeopleCounter!=temp.length)
-        {
-            //enqueue
-            PersonQueue p = temp[numPeopleCounter];
-            Person n = (Person)p;
-            int personTime = n.getArrival();
-            if(personArrivalChecker == personTime)
-            {
-                //enqueue();
-                personArrivalChecker=0;
-            }  
-            else
-                personArrivalChecker++;
-            
-            //dequeue
-            
-            for(int i=0;i<peopleQueued[i][0];i++)
-            {
-                for(int j =0; departArray[i][j]==0 && j<peopleQueued[i][0];j++)
-                {
-                    if(j>0)
-                    {
-                        delay = departArray[i][j-1] - ((Person)array[i]).getArrival();
-                    }
-                    departArray[i][j] = ((Person)array[i]).getArrival()+((Person)array[i]).getProcess()+delay;
-                    if(totalTime==departArray[i][j])
-                    {
-                        //dequeue(j);
-                    }
-                }
-            }
-            totalTime++;
-        }*/
-    }
-    /*public void enqueue()
-    {
-        int tracker=0;
         while(true)
         {
-            //if(!isEmpty(tracker))
-            if(peopleQueued[tracker][0]!= 0)
+          //enqueue
+           if(counter<pq.length)
+           {
+            Person p;
+            p = (Person)pq[counter];
+            if(p.getArrival()==arrivalTime)
             {
-             tracker++;
-              if(peopleQueued[tracker][0]==0)
-              {
-                array[tracker] = temp[numPeopleCounter];
-                peopleQueued[tracker][0] += 1;
-                numPeopleCounter++;
-                break;
+                 enqueue();
+                 arrivalTime =0;
+             }
+           }
+           arrivalTime++;
+           
+           //dequeue
+           for(int i=0; i<prioQ.length;i++)
+           {
+               //System.out.println(i);
+              Person temp = (Person)prioQ[i].getPersonQ();
+              departure = temp.getArrival()+temp.getProcess();//people that join after 0
+              temp.setDeparture(departure);
+               if(currQueued[i]>1)
+               {
+                   if(temp.getDeparture()==totalTime)
+                   {
+                           Person after = (Person) prioQ[i].getNextPerson();
+                           delay = temp.getDeparture() - after.getArrival();
+                           departureTime[i] = (delay+after.getArrival()+after.getProcess());
+                           dequeue(i);
+                           Person updated = new Person(after.getArrival(),departureTime[i],after.getProcess());
+                           //prioQ[i].removeFirstLast();
+                           //prioQ[i].insert(updated);
+                           
+                   }
+                  
                }
-                
-            }
-            else 
-            {
-            array[tracker] =temp[numPeopleCounter];
-            peopleQueued[tracker][0] += 1;
-            numPeopleCounter++;
-            break;
-            }
+               else if(temp.getDeparture()==totalTime)
+               {
+                   System.out.println(i);
+
+                   dequeue(i);
+               }
+           }
+           
+           //checking if Store is empty
+           if(counter == pq.length && isEmpty())
+           {
+               break;
+           }
+           totalTime++;
         }
+    }
+    public void enqueue()
+    {
+        int tracker=getMinIndex();
+        prioQ[tracker].insert2(pq[counter]);
+        //System.out.println("index: "+tracker);
+        Person temp =(Person) pq[counter];
+        int process = temp.getProcess();
         
+        event = new Event(totalTime,"arrival",tracker,process);
+        counter++;
+        currQueued[tracker] += 1;
     }
     public void dequeue(int n)
     {
-       int helper =0;
-       do
-       {
-       array[n] = array[n];
-       helper++;
-       }
-       while(array[n][helper]!=null);
+       prioQ[n].removeFirstLast();
+       
+       event = new Event(totalTime,"departure",n);
+       currQueued[n]--;
     }
-    public boolean isEmpty(int n)
+    public boolean isEmpty()
     {
-        
-        if(n!=0)
+        if(getMaxIndex()==0)
+            return true;
+        return false;
+    }
+    public int getMinIndex()
+    {
+        int min=currQueued[0];
+        int index =0;
+        for(int i=0;i<currQueued.length;i++)
         {
-            return false;
+            if(min>currQueued[i])
+            {
+                min = currQueued[i];
+                index = i;
+            }
         }
-        return true;
-    }*/
-    
-    
-    class Node{
-        private char letter;
-        private Node next, prev;
-        public Node(char c){
-        letter = c;
-        next = prev = null;
+        return index;
+    }
+    public int getMaxIndex()
+    {
+        int max = currQueued[0];
+        int index =0;
+        for(int i =0;i<currQueued.length;i++)
+        {
+            if(max<currQueued[i])
+            {
+                max = currQueued[i];
+                index = i;
+            }
         }
-        public char getLetter(){
-        return letter;
-        }
-        public Node getNext(){
-        return next;
-        }
-        public void setNext(Node n){
-        next = n;
-        }
-        public Node getPrev(){
-        return prev;
-        }
-        public void setPrev(Node p){
-        prev = p;
-        }
-        
+        return index;
     }
 }
